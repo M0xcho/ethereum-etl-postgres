@@ -1,4 +1,4 @@
-create table token_transfers
+create table if not exists "token_transfers"
 (
     token_address varchar(42),
     from_address varchar(42),

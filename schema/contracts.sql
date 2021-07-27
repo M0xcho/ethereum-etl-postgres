@@ -1,4 +1,4 @@
-create table contracts
+create table if not exists "contracts"
 (
     address varchar(42),
     bytecode text,

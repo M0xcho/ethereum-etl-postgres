@@ -1,4 +1,4 @@
-create table logs
+create table if not exists "logs"
 (
     log_index bigint,
     transaction_hash varchar(66),

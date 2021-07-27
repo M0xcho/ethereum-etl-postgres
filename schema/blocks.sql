@@ -1,4 +1,4 @@
-create table blocks
+create table if not exists "blocks"
 (
     timestamp timestamp,
     number bigint,

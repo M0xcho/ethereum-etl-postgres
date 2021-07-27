@@ -1,4 +1,4 @@
-create table transactions
+create table if not exists "transactions"
 (
     hash varchar(66),
     nonce bigint,

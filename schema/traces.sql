@@ -1,4 +1,4 @@
-create table traces
+create table if not exists "traces"
 (
     transaction_hash varchar(66),
     transaction_index bigint,

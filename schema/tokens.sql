@@ -1,8 +1,8 @@
-create table tokens
+create table if not exists "tokens"
 (
     address varchar(42),
     name text,
     symbol text,
-    decimals int(11),
+    decimals int,
     function_sighashes text[]
 );
