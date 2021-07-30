@@ -1,4 +1,3 @@
-from datetime import timezone
 import sys
 import os
 
@@ -9,9 +8,8 @@ sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
 
 from infrastructure.gateways.database import DatabaseGateway
 from sqlalchemy.sql.schema import Index, PrimaryKeyConstraint
-from sqlalchemy.sql.sqltypes import ARRAY, BIGINT, DateTime, INT, NUMERIC, TEXT, VARCHAR, TIMESTAMP
+from sqlalchemy.sql.sqltypes import ARRAY, BIGINT, INT, NUMERIC, TEXT, VARCHAR
 from sqlalchemy import Table, Column, MetaData
-from sqlalchemy.sql import func
 from sqlalchemy.sql.expression import text
 
 
