@@ -15,13 +15,11 @@ conn = repo.connect()
 
 cur = conn.cursor()
 
-cur.execute(open("../schema/blocks.sql", "r").read())
-cur.execute(open("../schema/contracts.sql", "r").read())
-cur.execute(open("../schema/logs.sql", "r").read())
-cur.execute(open("../schema/token_transfers.sql", "r").read())
-cur.execute(open("../schema/tokens.sql", "r").read())
-cur.execute(open("../schema/traces.sql", "r").read())
-cur.execute(open("../schema/transactions.sql", "r").read())
+cur.execute(open("../indexes/blocks.sql", "r").read())
+cur.execute(open("../indexes/logs.sql", "r").read())
+cur.execute(open("../indexes/token_transfers.sql", "r").read())
+cur.execute(open("../indexes/traces.sql", "r").read())
+cur.execute(open("../indexes/transactions.sql", "r").read())
 
 conn.commit()
 
