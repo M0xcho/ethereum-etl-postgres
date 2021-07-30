@@ -1,8 +1,11 @@
 # WIP
 
-Create tables with
+RUN etl_service
+1 - Configure env through environment variables or configuring the .env file
+
+2 - 
 ```
-python tables.py -host HOSTNAME -p PORT -u DB_USERNAME -pw DB_PASSWORD -db DATABASE_NAME 
+
 ```
 
 **Prerequisites**:
