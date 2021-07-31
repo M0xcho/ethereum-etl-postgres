@@ -8,11 +8,17 @@ Running etl_service
 
 3 - Register the database schema
 
-Terminal into  ``scripts`` folders, then run:
+Terminal into  ``etl_service\scripts`` folder, then run:
 ```
 python schema_registry.py
 ```
+4 - Run block Service -  **WIP**
 
+Terminal into ``etl_service``, then run:
+```
+python start.py
+```
 **Prerequisites**:
+
 
 - Untested below Python 3.8+
