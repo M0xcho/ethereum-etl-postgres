@@ -11,7 +11,6 @@ from sqlalchemy.sql.sqltypes import ARRAY, BIGINT, INT, NUMERIC, TEXT, VARCHAR
 from sqlalchemy import Table, Column, MetaData
 from sqlalchemy.sql.expression import text
 
-
 databaseGateway = DatabaseGateway()
 
 metadata = MetaData()
@@ -36,9 +35,7 @@ blocks_table = Table("blocks",
     Column('gas_limit', BIGINT),
     Column('gas_used', BIGINT),
     Column('transaction_count', BIGINT),
-    PrimaryKeyConstraint('hash', name='blocks_pk'),
-    Index("blocks_timestamp_index", 'hash', text("lower(hash)")),
-    Index("blocks_number_uindex", 'number', text("lower(CAST(number AS VARCHAR(66)))"), unique=True)
+    PrimaryKeyConstraint('hash', name='blocks_pk')
  )
 
 contracts_table = Table("contracts", 
@@ -63,8 +60,6 @@ logs_table = Table("logs",
     Column('block_number', BIGINT),
     Column('block_hash', VARCHAR(66)),
     PrimaryKeyConstraint('transaction_hash', 'log_index', name='logs_pk'),
-    Index("logs_block_timestamp_index", 'block_timestamp', text("lower(CAST(block_timestamp AS VARCHAR(66)))")),
-    Index("logs_address_block_timestamp_index", 'address', 'block_timestamp', text("lower(CAST(block_timestamp AS VARCHAR(66)))"))
 )
 
 token_tranfers_table = Table("token_transfers", 
@@ -77,11 +72,7 @@ token_tranfers_table = Table("token_transfers",
     Column('log_index', BIGINT, primary_key=True),
     Column('block_timestamp', NUMERIC(38)),
     Column('block_number', BIGINT),
-    Column('block_hash', VARCHAR(66)),
-    Index("token_transfers_block_timestamp_index", 'block_timestamp', text("lower(CAST(block_timestamp AS VARCHAR(66)))")),
-    Index("token_transfers_token_address_block_timestamp_index", 'token_address', 'block_timestamp', text("lower(CAST(block_timestamp AS VARCHAR(66)))")),
-    Index("token_transfers_from_address_block_timestamp_index", 'from_address', 'block_timestamp', text("lower(CAST(block_timestamp AS VARCHAR(66)))")),
-    Index("token_transfers_to_address_block_timestamp_index", 'to_address', 'block_timestamp', text("lower(CAST(block_timestamp AS VARCHAR(66)))")),
+    Column('block_hash', VARCHAR(66))
 )
 
 tokens_table = Table("tokens", 
@@ -90,7 +81,7 @@ tokens_table = Table("tokens",
     Column('name', TEXT),
     Column('symbol', TEXT),
     Column('decimals', INT),
-    Column('function_sighashes', ARRAY(TEXT)),
+    Column('function_sighashes', ARRAY(TEXT))
 )
 
 traces_table = Table("traces", 
@@ -115,10 +106,7 @@ traces_table = Table("traces",
     Column('block_number', BIGINT),
     Column('block_hash', VARCHAR(66)),
     Column('trace_id', TEXT),
-    PrimaryKeyConstraint('trace_id', name='traces_pk'),
-    Index("traces_block_timestamp_index", 'block_timestamp', text("lower(CAST(block_timestamp AS VARCHAR(66)))")),
-    Index("traces_from_address_block_timestamp_index", 'from_address', 'block_timestamp', text("lower(CAST(block_timestamp AS VARCHAR(66)))")),
-    Index("traces_to_address_block_timestamp_index", 'to_address', 'block_timestamp', text("lower(CAST(block_timestamp AS VARCHAR(66)))")),
+    PrimaryKeyConstraint('trace_id', name='traces_pk')
 )
 
 transactions_table = Table("transactions", 
@@ -140,10 +128,90 @@ transactions_table = Table("transactions",
     Column('block_timestamp', NUMERIC(38)),
     Column('block_number', BIGINT),
     Column('block_hash', VARCHAR(66)),
-    PrimaryKeyConstraint('hash', name='transactions_pk'),
-    Index("transactions_block_timestamp_index", 'block_timestamp', text("lower(CAST(block_timestamp AS VARCHAR(66)))")),
-    Index("transactions_from_address_block_timestamp_index", 'from_address', 'block_timestamp', text("lower(CAST(block_timestamp AS VARCHAR(66)))")),
-    Index("transactions_to_address_block_timestamp_index", 'to_address', 'block_timestamp', text("lower(CAST(block_timestamp AS VARCHAR(66)))")),
+    PrimaryKeyConstraint('hash', name='transactions_pk')
 )
 
+def build_indexes():
+    build_blocks_indexes()
+    build_logs_indexes()
+    build_token_transfers_indexes()
+    build_transactions_indexes()
+
+def build_blocks_indexes():
+    with databaseGateway.engine.begin() as conn:
+        conn.execute(
+            text("create index blocks_timestamp_index on blocks (timestamp desc);")
+        )
+
+    with databaseGateway.engine.begin() as conn:
+        conn.execute(
+            text("create unique index blocks_number_uindex on blocks (number desc);")
+        )
+
+def build_logs_indexes():
+    with databaseGateway.engine.begin() as conn:
+        conn.execute(
+            text("create index logs_block_timestamp_index on logs (block_timestamp desc);")
+        )
+
+    with databaseGateway.engine.begin() as conn:
+        conn.execute(
+            text("create index logs_address_block_timestamp_index on logs (address, block_timestamp desc);")
+        )
+
+def build_traces_indexes():
+    with databaseGateway.engine.begin() as conn:
+        conn.execute(
+            text("create index traces_block_timestamp_index on traces (block_timestamp desc);")
+        )
+
+    with databaseGateway.engine.begin() as conn:
+        conn.execute(
+            text("create index traces_from_address_block_timestamp_index on traces (from_address, block_timestamp desc);")
+        )
+
+    with databaseGateway.engine.begin() as conn:
+        conn.execute(
+            text("create index traces_to_address_block_timestamp_index on traces (to_address, block_timestamp desc);")
+        )
+
+def build_token_transfers_indexes():
+    with databaseGateway.engine.begin() as conn:
+        conn.execute(
+            text("create index token_transfers_block_timestamp_index on token_transfers (block_timestamp desc);")
+        )
+
+    with databaseGateway.engine.begin() as conn:
+        conn.execute(
+            text("create index token_transfers_token_address_block_timestamp_index on token_transfers (token_address, block_timestamp desc);")
+        )
+
+    with databaseGateway.engine.begin() as conn:
+        conn.execute(
+            text("create index token_transfers_from_address_block_timestamp_index on token_transfers (from_address, block_timestamp desc);")
+        )
+
+    with databaseGateway.engine.begin() as conn:
+        conn.execute(
+            text("create index token_transfers_to_address_block_timestamp_index on token_transfers (to_address, block_timestamp desc);")
+        )
+
+def build_transactions_indexes():
+    with databaseGateway.engine.begin() as conn:
+        conn.execute(
+            text("create index transactions_block_timestamp_index on transactions (block_timestamp desc);")
+        )
+
+    with databaseGateway.engine.begin() as conn:
+        conn.execute(
+            text("create index transactions_from_address_block_timestamp_index on transactions (from_address, block_timestamp desc);")
+        )
+
+    with databaseGateway.engine.begin() as conn:
+        conn.execute(
+            text("create index transactions_to_address_block_timestamp_index on transactions (to_address, block_timestamp desc);")
+        )
+
 metadata.create_all(databaseGateway.engine, checkfirst=False)
+build_indexes()
+
