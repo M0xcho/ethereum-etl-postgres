@@ -7,7 +7,8 @@ Running etl_service
 2 - Apply settings through environment variables or through the .env file
 
 3 - Register the database schema
-Terminal into  ``scripts`` folders. Run:
+
+Terminal into  ``scripts`` folders, then run:
 ```
 python schema_registry.py
 ```
