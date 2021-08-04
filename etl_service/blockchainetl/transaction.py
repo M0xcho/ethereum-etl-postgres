@@ -32,7 +32,4 @@ class Transaction():
                 block_number=row["block_number"],
                 block_hash=row["block_hash"],
                 )
-                print(stmt)
-                compiled = stmt.compile()
-                print(compiled.params)
                 self.conn.execute(stmt)

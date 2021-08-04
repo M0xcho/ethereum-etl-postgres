@@ -49,12 +49,17 @@ class PostgresItemExporter:
             if item_group:
                 from blockchainetl.block import Block
                 from blockchainetl.transaction import Transaction
+                from blockchainetl.token_transfer import TokenTransfer
                 if item_group[0].get("type") == "block":
                     block_repo = Block()
                     block_repo.insert_block(item_group[0])
                 if item_group[0].get("type") == "transaction":
                     transaction_repo = Transaction()
                     transaction_repo.insert_transaction(item_group[0])
+                if item_group[0].get("type") == "token_transfer":
+                    transaction_repo = TokenTransfer()
+                    transaction_repo.insert_token_transfer(item_group[0])
+
                 #connection = self.engine.connect()
                 #converted_items = list(self.convert_items(item_group))
                 #connection.execute(insert_stmt, converted_items)

@@ -20,7 +20,7 @@ from infrastructure.gateways.database import DatabaseGateway
 from sqlalchemy import insert
 
 def parse_entity_types():
-    entity_types = ["block","transaction"]
+    entity_types = ["block","transaction", "token_transfer"]
     if (strtobool(os.getenv('streamBlocks', 'False'))):
         return entity_types
     pass
