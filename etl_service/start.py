@@ -1,11 +1,11 @@
 from multiprocessing import Process
-from services.blocks_service import BlocksService
+from services.blocks_service import ETLService
 
 #main
-def SpawnSingletonBlockService():
-    BlocksService()
+def SpawnSingletonETLService():
+    ETLService()
 
 if __name__ == '__main__':
-    p = Process(target=SpawnSingletonBlockService, args=())
+    p = Process(target=SpawnSingletonETLService, args=())
     p.start()
     p.join()

@@ -1,8 +1,8 @@
 import logging
 import re
 
-from etl_service.ethereumetl.domain.origin import OriginMarketplaceListing, OriginShopProduct
-from etl_service.ethereumetl.ipfs.client import IpfsClient
+from ethereumetl.domain.origin import OriginMarketplaceListing, OriginShopProduct
+from ethereumetl.ipfs.client import IpfsClient
 
 logger = logging.getLogger('origin')
 

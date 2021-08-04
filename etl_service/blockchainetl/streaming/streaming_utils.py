@@ -2,7 +2,7 @@ import logging
 import signal
 import sys
 
-from etl_service.blockchainetl.logging_utils import logging_basic_config
+from blockchainetl.logging_utils import logging_basic_config
 
 
 def configure_signals():

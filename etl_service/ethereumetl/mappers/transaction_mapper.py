@@ -21,8 +21,8 @@
 # SOFTWARE.
 
 
-from etl_service.ethereumetl.domain.transaction import EthTransaction
-from etl_service.ethereumetl.utils import hex_to_dec, to_normalized_address
+from ethereumetl.domain.transaction import EthTransaction
+from ethereumetl.utils import hex_to_dec, to_normalized_address
 
 
 class EthTransactionMapper(object):

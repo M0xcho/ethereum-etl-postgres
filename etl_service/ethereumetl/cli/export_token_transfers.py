@@ -25,11 +25,11 @@ import click
 
 from web3 import Web3
 
-from etl_service.ethereumetl.jobs.export_token_transfers_job import ExportTokenTransfersJob
-from etl_service.ethereumetl.jobs.exporters.token_transfers_item_exporter import token_transfers_item_exporter
-from etl_service.blockchainetl.logging_utils import logging_basic_config
-from etl_service.ethereumetl.providers.auto import get_provider_from_uri
-from etl_service.ethereumetl.thread_local_proxy import ThreadLocalProxy
+from ethereumetl.jobs.export_token_transfers_job import ExportTokenTransfersJob
+from ethereumetl.jobs.exporters.token_transfers_item_exporter import token_transfers_item_exporter
+from blockchainetl.logging_utils import logging_basic_config
+from ethereumetl.providers.auto import get_provider_from_uri
+from ethereumetl.thread_local_proxy import ThreadLocalProxy
 
 logging_basic_config()
 

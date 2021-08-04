@@ -23,11 +23,11 @@ import logging
 import random
 
 import click
-from etl_service.blockchainetl.streaming.streaming_utils import configure_signals, configure_logging
-from etl_service.ethereumetl.enumeration.entity_type import EntityType
+from blockchainetl.streaming.streaming_utils import configure_signals, configure_logging
+from ethereumetl.enumeration.entity_type import EntityType
 
-from etl_service.ethereumetl.providers.auto import get_provider_from_uri
-from etl_service.ethereumetl.thread_local_proxy import ThreadLocalProxy
+from ethereumetl.providers.auto import get_provider_from_uri
+from ethereumetl.thread_local_proxy import ThreadLocalProxy
 
 
 @click.command(context_settings=dict(help_option_names=['-h', '--help']))
@@ -57,9 +57,9 @@ def stream(last_synced_block_file, lag, provider_uri, output, start_block, entit
     entity_types = parse_entity_types(entity_types)
     validate_entity_types(entity_types, output)
 
-    from etl_service.ethereumetl.streaming.item_exporter_creator import create_item_exporter
-    from etl_service.ethereumetl.streaming.eth_streamer_adapter import EthStreamerAdapter
-    from etl_service.blockchainetl.streaming.streamer import Streamer
+    from ethereumetl.streaming.item_exporter_creator import create_item_exporter
+    from ethereumetl.streaming.eth_streamer_adapter import EthStreamerAdapter
+    from blockchainetl.streaming.streamer import Streamer
 
     # TODO: Implement fallback mechanism for provider uris instead of picking randomly
     provider_uri = pick_random_provider_uri(provider_uri)
@@ -98,7 +98,7 @@ def parse_entity_types(entity_types):
 
 
 def validate_entity_types(entity_types, output):
-    from etl_service.ethereumetl.streaming.item_exporter_creator import determine_item_exporter_type, ItemExporterType
+    from ethereumetl.streaming.item_exporter_creator import determine_item_exporter_type, ItemExporterType
     item_exporter_type = determine_item_exporter_type(output)
     if item_exporter_type == ItemExporterType.POSTGRES \
             and (EntityType.CONTRACT in entity_types or EntityType.TOKEN in entity_types):

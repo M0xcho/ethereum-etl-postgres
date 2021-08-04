@@ -23,13 +23,13 @@
 
 import json
 
-from etl_service.ethereumetl.executors.batch_work_executor import BatchWorkExecutor
-from etl_service.blockchainetl.jobs.base_job import BaseJob
-from etl_service.ethereumetl.json_rpc_requests import generate_get_code_json_rpc
-from etl_service.ethereumetl.mappers.contract_mapper import EthContractMapper
+from ethereumetl.executors.batch_work_executor import BatchWorkExecutor
+from blockchainetl.jobs.base_job import BaseJob
+from ethereumetl.json_rpc_requests import generate_get_code_json_rpc
+from ethereumetl.mappers.contract_mapper import EthContractMapper
 
-from etl_service.ethereumetl.service.eth_contract_service import EthContractService
-from etl_service.ethereumetl.utils import rpc_response_to_result
+from ethereumetl.service.eth_contract_service import EthContractService
+from ethereumetl.utils import rpc_response_to_result
 
 
 # Exports contracts bytecode

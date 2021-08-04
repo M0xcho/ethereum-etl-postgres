@@ -21,7 +21,7 @@
 # SOFTWARE.
 
 
-from etl_service.ethereumetl.domain.contract import EthContract
+from ethereumetl.domain.contract import EthContract
 
 
 class EthContractMapper(object):

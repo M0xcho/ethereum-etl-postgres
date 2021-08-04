@@ -20,15 +20,15 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from etl_service.ethereumetl.executors.batch_work_executor import BatchWorkExecutor
-from etl_service.blockchainetl.jobs.base_job import BaseJob
-from etl_service.ethereumetl.mainnet_daofork_state_changes import DAOFORK_BLOCK_NUMBER
-from etl_service.ethereumetl.mappers.trace_mapper import EthTraceMapper
-from etl_service.ethereumetl.service.eth_special_trace_service import EthSpecialTraceService
+from ethereumetl.executors.batch_work_executor import BatchWorkExecutor
+from blockchainetl.jobs.base_job import BaseJob
+from ethereumetl.mainnet_daofork_state_changes import DAOFORK_BLOCK_NUMBER
+from ethereumetl.mappers.trace_mapper import EthTraceMapper
+from ethereumetl.service.eth_special_trace_service import EthSpecialTraceService
 
-from etl_service.ethereumetl.service.trace_id_calculator import calculate_trace_ids
-from etl_service.ethereumetl.service.trace_status_calculator import calculate_trace_statuses
-from etl_service.ethereumetl.utils import validate_range
+from ethereumetl.service.trace_id_calculator import calculate_trace_ids
+from ethereumetl.service.trace_status_calculator import calculate_trace_statuses
+from ethereumetl.utils import validate_range
 
 
 class ExportTracesJob(BaseJob):

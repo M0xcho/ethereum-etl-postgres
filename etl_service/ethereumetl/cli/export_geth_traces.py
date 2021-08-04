@@ -23,11 +23,11 @@
 
 import click
 
-from etl_service.ethereumetl.jobs.export_geth_traces_job import ExportGethTracesJob
-from etl_service.ethereumetl.jobs.exporters.geth_traces_item_exporter import geth_traces_item_exporter
-from etl_service.blockchainetl.logging_utils import logging_basic_config
-from etl_service.ethereumetl.providers.auto import get_provider_from_uri
-from etl_service.ethereumetl.thread_local_proxy import ThreadLocalProxy
+from ethereumetl.jobs.export_geth_traces_job import ExportGethTracesJob
+from ethereumetl.jobs.exporters.geth_traces_item_exporter import geth_traces_item_exporter
+from blockchainetl.logging_utils import logging_basic_config
+from ethereumetl.providers.auto import get_provider_from_uri
+from ethereumetl.thread_local_proxy import ThreadLocalProxy
 
 logging_basic_config()
 

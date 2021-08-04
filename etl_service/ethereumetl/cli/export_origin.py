@@ -23,12 +23,12 @@ import click
 
 from web3 import Web3
 
-from etl_service.blockchainetl.logging_utils import logging_basic_config
-from etl_service.ethereumetl.jobs.export_origin_job import ExportOriginJob
-from etl_service.ethereumetl.jobs.exporters.origin_exporter import origin_marketplace_listing_item_exporter, origin_shop_product_item_exporter
-from etl_service.ethereumetl.ipfs.origin import get_origin_ipfs_client
-from etl_service.ethereumetl.providers.auto import get_provider_from_uri
-from etl_service.ethereumetl.thread_local_proxy import ThreadLocalProxy
+from blockchainetl.logging_utils import logging_basic_config
+from ethereumetl.jobs.export_origin_job import ExportOriginJob
+from ethereumetl.jobs.exporters.origin_exporter import origin_marketplace_listing_item_exporter, origin_shop_product_item_exporter
+from ethereumetl.ipfs.origin import get_origin_ipfs_client
+from ethereumetl.providers.auto import get_provider_from_uri
+from ethereumetl.thread_local_proxy import ThreadLocalProxy
 
 logging_basic_config()
 

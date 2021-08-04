@@ -22,11 +22,11 @@
 
 import json
 
-from etl_service.ethereumetl.executors.batch_work_executor import BatchWorkExecutor
-from etl_service.ethereumetl.json_rpc_requests import generate_trace_block_by_number_json_rpc
-from etl_service.blockchainetl.jobs.base_job import BaseJob
-from etl_service.ethereumetl.mappers.geth_trace_mapper import EthGethTraceMapper
-from etl_service.ethereumetl.utils import validate_range, rpc_response_to_result
+from ethereumetl.executors.batch_work_executor import BatchWorkExecutor
+from ethereumetl.json_rpc_requests import generate_trace_block_by_number_json_rpc
+from blockchainetl.jobs.base_job import BaseJob
+from ethereumetl.mappers.geth_trace_mapper import EthGethTraceMapper
+from ethereumetl.utils import validate_range, rpc_response_to_result
 
 
 # Exports geth traces

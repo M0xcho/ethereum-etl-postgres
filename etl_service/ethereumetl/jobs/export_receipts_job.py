@@ -23,12 +23,12 @@
 
 import json
 
-from etl_service.blockchainetl.jobs.base_job import BaseJob
-from etl_service.ethereumetl.executors.batch_work_executor import BatchWorkExecutor
-from etl_service.ethereumetl.json_rpc_requests import generate_get_receipt_json_rpc
-from etl_service.ethereumetl.mappers.receipt_log_mapper import EthReceiptLogMapper
-from etl_service.ethereumetl.mappers.receipt_mapper import EthReceiptMapper
-from etl_service.ethereumetl.utils import rpc_response_batch_to_results
+from blockchainetl.jobs.base_job import BaseJob
+from ethereumetl.executors.batch_work_executor import BatchWorkExecutor
+from ethereumetl.json_rpc_requests import generate_get_receipt_json_rpc
+from ethereumetl.mappers.receipt_log_mapper import EthReceiptLogMapper
+from ethereumetl.mappers.receipt_mapper import EthReceiptMapper
+from ethereumetl.utils import rpc_response_batch_to_results
 
 
 # Exports receipts and logs

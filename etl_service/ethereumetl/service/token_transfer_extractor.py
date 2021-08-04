@@ -24,8 +24,8 @@
 import logging
 from builtins import map
 
-from etl_service.ethereumetl.domain.token_transfer import EthTokenTransfer
-from etl_service.ethereumetl.utils import chunk_string, hex_to_dec, to_normalized_address
+from ethereumetl.domain.token_transfer import EthTokenTransfer
+from ethereumetl.utils import chunk_string, hex_to_dec, to_normalized_address
 
 # https://ethereum.stackexchange.com/questions/12553/understanding-logs-and-log-blooms
 TRANSFER_EVENT_TOPIC = '0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef'

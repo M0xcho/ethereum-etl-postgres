@@ -22,7 +22,7 @@
 
 import click
 
-from etl_service.ethereumetl import misc_utils
+from ethereumetl import misc_utils
 
 
 @click.command(context_settings=dict(help_option_names=['-h', '--help']))

@@ -25,11 +25,11 @@ import click
 
 from web3 import Web3
 
-from etl_service.blockchainetl.file_utils import smart_open
-from etl_service.blockchainetl.logging_utils import logging_basic_config
-from etl_service.ethereumetl.providers.auto import get_provider_from_uri
-from etl_service.ethereumetl.service.eth_service import EthService
-from etl_service.ethereumetl.utils import check_classic_provider_uri
+from blockchainetl.file_utils import smart_open
+from blockchainetl.logging_utils import logging_basic_config
+from ethereumetl.providers.auto import get_provider_from_uri
+from ethereumetl.service.eth_service import EthService
+from ethereumetl.utils import check_classic_provider_uri
 
 logging_basic_config()
 

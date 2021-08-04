@@ -1,19 +1,19 @@
 import logging
 
-from etl_service.blockchainetl.jobs.exporters.console_item_exporter import ConsoleItemExporter
-from etl_service.blockchainetl.jobs.exporters.in_memory_item_exporter import InMemoryItemExporter
-from etl_service.ethereumetl.enumeration.entity_type import EntityType
-from etl_service.ethereumetl.jobs.export_blocks_job import ExportBlocksJob
-from etl_service.ethereumetl.jobs.export_receipts_job import ExportReceiptsJob
-from etl_service.ethereumetl.jobs.export_traces_job import ExportTracesJob
-from etl_service.ethereumetl.jobs.extract_contracts_job import ExtractContractsJob
-from etl_service.ethereumetl.jobs.extract_token_transfers_job import ExtractTokenTransfersJob
-from etl_service.ethereumetl.jobs.extract_tokens_job import ExtractTokensJob
-from etl_service.ethereumetl.streaming.enrich import enrich_transactions, enrich_logs, enrich_token_transfers, enrich_traces, \
+from blockchainetl.jobs.exporters.console_item_exporter import ConsoleItemExporter
+from blockchainetl.jobs.exporters.in_memory_item_exporter import InMemoryItemExporter
+from ethereumetl.enumeration.entity_type import EntityType
+from ethereumetl.jobs.export_blocks_job import ExportBlocksJob
+from ethereumetl.jobs.export_receipts_job import ExportReceiptsJob
+from ethereumetl.jobs.export_traces_job import ExportTracesJob
+from ethereumetl.jobs.extract_contracts_job import ExtractContractsJob
+from ethereumetl.jobs.extract_token_transfers_job import ExtractTokenTransfersJob
+from ethereumetl.jobs.extract_tokens_job import ExtractTokensJob
+from ethereumetl.streaming.enrich import enrich_transactions, enrich_logs, enrich_token_transfers, enrich_traces, \
     enrich_contracts, enrich_tokens
-from etl_service.ethereumetl.streaming.eth_item_id_calculator import EthItemIdCalculator
-from etl_service.ethereumetl.streaming.eth_item_timestamp_calculator import EthItemTimestampCalculator
-from etl_service.ethereumetl.thread_local_proxy import ThreadLocalProxy
+from ethereumetl.streaming.eth_item_id_calculator import EthItemIdCalculator
+from ethereumetl.streaming.eth_item_timestamp_calculator import EthItemTimestampCalculator
+from ethereumetl.thread_local_proxy import ThreadLocalProxy
 from web3 import Web3
 
 

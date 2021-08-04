@@ -21,7 +21,7 @@
 # SOFTWARE.
 
 
-from etl_service.ethereumetl.jobs.export_tokens_job import ExportTokensJob
+from ethereumetl.jobs.export_tokens_job import ExportTokensJob
 
 
 class ExtractTokensJob(ExportTokensJob):

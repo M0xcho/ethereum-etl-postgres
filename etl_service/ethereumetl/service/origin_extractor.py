@@ -1,8 +1,8 @@
 import base58
 import logging
 
-from etl_service.ethereumetl.utils import hex_to_dec, to_normalized_address
-from etl_service.ethereumetl.ipfs.origin import get_origin_marketplace_data
+from ethereumetl.utils import hex_to_dec, to_normalized_address
+from ethereumetl.ipfs.origin import get_origin_marketplace_data
 
 #
 LISTING_CREATED_TOPIC = '0xec3d306143145322b45d2788d826e3b7b9ad062f16e1ec59a5eaba214f96ee3c'

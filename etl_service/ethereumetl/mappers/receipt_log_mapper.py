@@ -21,8 +21,8 @@
 # SOFTWARE.
 
 
-from etl_service.ethereumetl.domain.receipt_log import EthReceiptLog
-from etl_service.ethereumetl.utils import hex_to_dec
+from ethereumetl.domain.receipt_log import EthReceiptLog
+from ethereumetl.utils import hex_to_dec
 
 
 class EthReceiptLogMapper(object):

@@ -25,11 +25,11 @@ import csv
 import json
 
 import click
-from etl_service.blockchainetl.csv_utils import set_max_field_size_limit
-from etl_service.blockchainetl.file_utils import smart_open
-from etl_service.ethereumetl.jobs.exporters.contracts_item_exporter import contracts_item_exporter
-from etl_service.ethereumetl.jobs.extract_contracts_job import ExtractContractsJob
-from etl_service.blockchainetl.logging_utils import logging_basic_config
+from blockchainetl.csv_utils import set_max_field_size_limit
+from blockchainetl.file_utils import smart_open
+from ethereumetl.jobs.exporters.contracts_item_exporter import contracts_item_exporter
+from ethereumetl.jobs.extract_contracts_job import ExtractContractsJob
+from blockchainetl.logging_utils import logging_basic_config
 
 logging_basic_config()
 

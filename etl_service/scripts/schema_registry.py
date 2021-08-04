@@ -15,121 +15,57 @@ databaseGateway = DatabaseGateway()
 
 metadata = MetaData()
 
-blocks_table = Table("blocks",
-    metadata,
-    Column('timestamp', NUMERIC(38)),
-    Column('number', BIGINT),
-    Column('hash', VARCHAR(66)),
-    Column('parent_hash', VARCHAR(66)),
-    Column('nonce', VARCHAR(42)),
-    Column('sha3_uncles', VARCHAR(66)),
-    Column('logs_bloom', TEXT),
-    Column('transactions_root', VARCHAR(66)),
-    Column('state_root', VARCHAR(66)),
-    Column('receipts_root', VARCHAR(66)),
-    Column('miner', VARCHAR(42)),
-    Column('difficulty', NUMERIC(38)),
-    Column('total_difficulty', NUMERIC(38)),
-    Column('size', BIGINT),
-    Column('extra_data', TEXT),
-    Column('gas_limit', BIGINT),
-    Column('gas_used', BIGINT),
-    Column('transaction_count', BIGINT),
-    PrimaryKeyConstraint('hash', name='blocks_pk')
- )
+def build_tables():
+    build_blocks_table()
+    build_contracts_table()
+    build_logs_table()
+    build_token_transfers_table()
+    build_tokens_table()
+    build_traces_table()
+    build_transactions_table()
 
-contracts_table = Table("contracts", 
-    metadata,
-    Column('address', VARCHAR(42)),
-    Column('bytecode', TEXT),
-    Column('function_sighashes', ARRAY(TEXT))
-)
+def build_blocks_table():
+    with databaseGateway.engine.begin() as conn:
+        conn.execute(
+            text("create table blocks(timestamp timestamp,number bigint,hash varchar(66),parent_hash varchar(66),nonce varchar(42),sha3_uncles varchar(66),logs_bloom text,transactions_root varchar(66),state_root varchar(66),receipts_root varchar(66),miner varchar(42),difficulty numeric(38),total_difficulty numeric(38),size bigint,extra_data text,gas_limit bigint,gas_used bigint,transaction_count bigint);")
+        )
 
-logs_table = Table("logs", 
-    metadata,
-    Column('log_index', BIGINT),
-    Column('transaction_hash', VARCHAR(66)),
-    Column('transaction_index', BIGINT),
-    Column('address', VARCHAR(42)),
-    Column('data', TEXT),
-    Column('topic0', VARCHAR(66)),
-    Column('topic1', VARCHAR(66)),
-    Column('topic2', VARCHAR(66)),
-    Column('topic3', VARCHAR(66)),
-    Column('block_timestamp', NUMERIC(38)),
-    Column('block_number', BIGINT),
-    Column('block_hash', VARCHAR(66)),
-    PrimaryKeyConstraint('transaction_hash', 'log_index', name='logs_pk'),
-)
+def build_contracts_table():
+    with databaseGateway.engine.begin() as conn:
+        conn.execute(
+            text("create table contracts ( address varchar(42), bytecode text, function_sighashes text[] );")
+        )
 
-token_tranfers_table = Table("token_transfers", 
-    metadata,
-    Column('token_address', VARCHAR(42)),
-    Column('from_address', VARCHAR(42)),
-    Column('to_address', VARCHAR(42)),
-    Column('value', NUMERIC(78)),
-    Column('transaction_hash', VARCHAR(66), primary_key=True),
-    Column('log_index', BIGINT, primary_key=True),
-    Column('block_timestamp', NUMERIC(38)),
-    Column('block_number', BIGINT),
-    Column('block_hash', VARCHAR(66))
-)
+def build_logs_table():
+    with databaseGateway.engine.begin() as conn:
+        conn.execute(
+            text("create table logs ( log_index bigint, transaction_hash varchar(66), transaction_index bigint, address varchar(42), data text, topic0 varchar(66), topic1 varchar(66), topic2 varchar(66), topic3 varchar(66), block_timestamp timestamp, block_number bigint, block_hash varchar(66) );")
+        )
 
-tokens_table = Table("tokens", 
-    metadata,
-    Column('address', VARCHAR(42)),
-    Column('name', TEXT),
-    Column('symbol', TEXT),
-    Column('decimals', INT),
-    Column('function_sighashes', ARRAY(TEXT))
-)
+def build_token_transfers_table():
+    with databaseGateway.engine.begin() as conn:
+        conn.execute(
+            text("create table token_transfers ( token_address varchar(42), from_address varchar(42), to_address varchar(42), value numeric(78), transaction_hash varchar(66), log_index bigint, block_timestamp timestamp, block_number bigint, block_hash varchar(66) );")
+        )
 
-traces_table = Table("traces", 
-    metadata,
-    Column('transaction_hash', VARCHAR(66)),
-    Column('transaction_index', BIGINT),
-    Column('from_address', VARCHAR(42)),
-    Column('to_address', VARCHAR(42)),
-    Column('value', NUMERIC(38)),
-    Column('input', TEXT),
-    Column('output', TEXT),
-    Column('trace_type', VARCHAR(16)),
-    Column('call_type', VARCHAR(16)),
-    Column('reward_type', VARCHAR(16)),
-    Column('gas', BIGINT),
-    Column('gas_used', BIGINT),
-    Column('subtraces', BIGINT),
-    Column('trace_address', VARCHAR(8192)),
-    Column('error', TEXT),
-    Column('status', INT),
-    Column('block_timestamp', NUMERIC(38)),
-    Column('block_number', BIGINT),
-    Column('block_hash', VARCHAR(66)),
-    Column('trace_id', TEXT),
-    PrimaryKeyConstraint('trace_id', name='traces_pk')
-)
+def build_tokens_table():
+    with databaseGateway.engine.begin() as conn:
+        conn.execute(
+            text("create table tokens ( address varchar(42), name text, symbol text, decimals NUMERIC(11, 0), function_sighashes text[] );")
+        )
 
-transactions_table = Table("transactions", 
-    metadata,
-    Column('hash', VARCHAR(66)),
-    Column('nonce', BIGINT),
-    Column('transaction_index', BIGINT),
-    Column('from_address', VARCHAR(42)),
-    Column('to_address', VARCHAR(42)),
-    Column('value', NUMERIC(38)),
-    Column('gas', BIGINT),
-    Column('gas_price', BIGINT),
-    Column('input', TEXT),
-    Column('receipt_cumulative_gas_used', BIGINT),
-    Column('receipt_gas_used', BIGINT),
-    Column('receipt_contract_address', VARCHAR(42)),
-    Column('receipt_root', VARCHAR(66)),
-    Column('receipt_status', BIGINT),
-    Column('block_timestamp', NUMERIC(38)),
-    Column('block_number', BIGINT),
-    Column('block_hash', VARCHAR(66)),
-    PrimaryKeyConstraint('hash', name='transactions_pk')
-)
+def build_traces_table():
+    with databaseGateway.engine.begin() as conn:
+        conn.execute(
+            text("create table traces ( transaction_hash varchar(66), transaction_index bigint, from_address varchar(42), to_address varchar(42), value numeric(38), input text, output text, trace_type varchar(16), call_type varchar(16), reward_type varchar(16), gas bigint, gas_used bigint, subtraces bigint, trace_address varchar(8192), error text, status int, block_timestamp timestamp, block_number bigint, block_hash varchar(66), trace_id text );")
+        )
+    
+def build_transactions_table():
+    with databaseGateway.engine.begin() as conn:
+        conn.execute(
+            text("create table transactions ( hash varchar(66), nonce bigint, transaction_index bigint, from_address varchar(42), to_address varchar(42), value numeric(38), gas bigint, gas_price bigint, input text, receipt_cumulative_gas_used bigint, receipt_gas_used bigint, receipt_contract_address varchar(42), receipt_root varchar(66), receipt_status bigint, block_timestamp timestamp, block_number bigint, block_hash varchar(66) );")
+        )
+
 
 def build_indexes():
     build_blocks_indexes()
@@ -212,6 +148,5 @@ def build_transactions_indexes():
             text("create index transactions_to_address_block_timestamp_index on transactions (to_address, block_timestamp desc);")
         )
 
-metadata.create_all(databaseGateway.engine, checkfirst=False)
+build_tables()
 build_indexes()
-

@@ -1,4 +1,4 @@
-from etl_service.blockchainetl.jobs.exporters.composite_item_exporter import CompositeItemExporter
+from blockchainetl.jobs.exporters.composite_item_exporter import CompositeItemExporter
 
 MARKETPLACE_FIELDS_TO_EXPORT = [
     'block_number',

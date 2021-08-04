@@ -21,9 +21,9 @@
 # SOFTWARE.
 
 
-from etl_service.ethereumetl.domain.receipt import EthReceipt
-from etl_service.ethereumetl.mappers.receipt_log_mapper import EthReceiptLogMapper
-from etl_service.ethereumetl.utils import hex_to_dec, to_normalized_address
+from ethereumetl.domain.receipt import EthReceipt
+from ethereumetl.mappers.receipt_log_mapper import EthReceiptLogMapper
+from ethereumetl.utils import hex_to_dec, to_normalized_address
 
 
 class EthReceiptMapper(object):

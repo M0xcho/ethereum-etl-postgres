@@ -24,7 +24,7 @@ import collections
 
 from sqlalchemy import create_engine
 
-from etl_service.blockchainetl.jobs.exporters.converters.composite_item_converter import CompositeItemConverter
+from blockchainetl.jobs.exporters.converters.composite_item_converter import CompositeItemConverter
 
 
 class PostgresItemExporter:
@@ -44,11 +44,17 @@ class PostgresItemExporter:
         items_grouped_by_type = group_by_item_type(items)
 
         for item_type, insert_stmt in self.item_type_to_insert_stmt_mapping.items():
+                
             item_group = items_grouped_by_type.get(item_type)
             if item_group:
-                connection = self.engine.connect()
-                converted_items = list(self.convert_items(item_group))
-                connection.execute(insert_stmt, converted_items)
+                if item_group[0].get("type") == "block":
+                    from blockchainetl.block import Block
+                    block_repo = Block()
+                    block_repo.insert_block(item_group[0])
+
+                #connection = self.engine.connect()
+                #converted_items = list(self.convert_items(item_group))
+                #connection.execute(insert_stmt, converted_items)
 
     def convert_items(self, items):
         for item in items:

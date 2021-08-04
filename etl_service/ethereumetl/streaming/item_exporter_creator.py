@@ -20,15 +20,13 @@
 #  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 #  SOFTWARE.
 
-from etl_service.blockchainetl.jobs.exporters.console_item_exporter import ConsoleItemExporter
-from etl_service.blockchainetl.jobs.exporters.custompostgres_item_exporter 
-from etl_service.ethereumetl.streaming.item_exporter_creator import ItemExporterType
+from blockchainetl.jobs.exporters.console_item_exporter import ConsoleItemExporter
 
 
 def create_item_exporter(output):
     item_exporter_type = determine_item_exporter_type(output)
     if item_exporter_type == ItemExporterType.PUBSUB:
-        from etl_service.blockchainetl.jobs.exporters.google_pubsub_item_exporter import GooglePubSubItemExporter
+        from blockchainetl.jobs.exporters.google_pubsub_item_exporter import GooglePubSubItemExporter
         item_exporter = GooglePubSubItemExporter(item_type_to_topic_mapping={
             'block': output + '.blocks',
             'transaction': output + '.transactions',
@@ -39,12 +37,12 @@ def create_item_exporter(output):
             'token': output + '.tokens',
         })
     elif item_exporter_type == ItemExporterType.POSTGRES:
-        from etl_service.blockchainetl.jobs.exporters.postgres_item_exporter import PostgresItemExporter
-        from etl_service.blockchainetl.streaming.postgres_utils import create_insert_statement_for_table
-        from etl_service.blockchainetl.jobs.exporters.converters.unix_timestamp_item_converter import UnixTimestampItemConverter
-        from etl_service.blockchainetl.jobs.exporters.converters.int_to_decimal_item_converter import IntToDecimalItemConverter
-        from etl_service.blockchainetl.jobs.exporters.converters.list_field_item_converter import ListFieldItemConverter
-        from etl_service.ethereumetl.streaming.postgres_tables import BLOCKS, TRANSACTIONS, LOGS, TOKEN_TRANSFERS, TRACES
+        from blockchainetl.jobs.exporters.postgres_item_exporter import PostgresItemExporter
+        from blockchainetl.streaming.postgres_utils import create_insert_statement_for_table
+        from blockchainetl.jobs.exporters.converters.unix_timestamp_item_converter import UnixTimestampItemConverter
+        from blockchainetl.jobs.exporters.converters.int_to_decimal_item_converter import IntToDecimalItemConverter
+        from blockchainetl.jobs.exporters.converters.list_field_item_converter import ListFieldItemConverter
+        from ethereumetl.streaming.postgres_tables import BLOCKS, TRANSACTIONS, LOGS, TOKEN_TRANSFERS, TRACES
 
         item_exporter = PostgresItemExporter(
             output, item_type_to_insert_stmt_mapping={
@@ -58,8 +56,6 @@ def create_item_exporter(output):
                         ListFieldItemConverter('topics', 'topic', fill=4)])
     elif item_exporter_type == ItemExporterType.CONSOLE:
         item_exporter = ConsoleItemExporter()
-    elif item_exporter_type == ItemExporterType.CUSTOMPOSTGRES:
-        item_exporter = CustomPostgresItemExporter()
     else:
         raise ValueError('Unable to determine item exporter type for output ' + output)
 
@@ -71,8 +67,6 @@ def determine_item_exporter_type(output):
         return ItemExporterType.PUBSUB
     elif output is not None and output.startswith('postgresql'):
         return ItemExporterType.POSTGRES
-    elif output is not None and output.startswith('custompostgres'):
-        return ItemExporterType.CUSTOMPOSTGRES
     elif output is None or output == 'console':
         return ItemExporterType.CONSOLE
     else:
@@ -84,4 +78,3 @@ class ItemExporterType:
     POSTGRES = 'postgres'
     CONSOLE = 'console'
     UNKNOWN = 'unknown'
-    CUSTOMPOSTGRES = "custompostgres"

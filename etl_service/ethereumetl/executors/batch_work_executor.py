@@ -26,11 +26,11 @@ import time
 from requests.exceptions import Timeout as RequestsTimeout, HTTPError, TooManyRedirects
 from web3.utils.threads import Timeout as Web3Timeout
 
-from etl_service.ethereumetl.executors.bounded_executor import BoundedExecutor
-from etl_service.ethereumetl.executors.fail_safe_executor import FailSafeExecutor
-from etl_service.ethereumetl.misc.retriable_value_error import RetriableValueError
-from etl_service.ethereumetl.progress_logger import ProgressLogger
-from etl_service.ethereumetl.utils import dynamic_batch_iterator
+from ethereumetl.executors.bounded_executor import BoundedExecutor
+from ethereumetl.executors.fail_safe_executor import FailSafeExecutor
+from ethereumetl.misc.retriable_value_error import RetriableValueError
+from ethereumetl.progress_logger import ProgressLogger
+from ethereumetl.utils import dynamic_batch_iterator
 
 RETRY_EXCEPTIONS = (ConnectionError, HTTPError, RequestsTimeout, TooManyRedirects, Web3Timeout, OSError,
                     RetriableValueError)

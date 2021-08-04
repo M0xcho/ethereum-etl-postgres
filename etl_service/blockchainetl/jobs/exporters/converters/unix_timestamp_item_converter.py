@@ -22,7 +22,7 @@
 
 from datetime import datetime
 
-from etl_service.blockchainetl.jobs.exporters.converters.simple_item_converter import SimpleItemConverter
+from blockchainetl.jobs.exporters.converters.simple_item_converter import SimpleItemConverter
 
 
 class UnixTimestampItemConverter(SimpleItemConverter):

@@ -25,10 +25,10 @@ import click
 import csv
 import json
 
-from etl_service.blockchainetl.file_utils import smart_open
-from etl_service.ethereumetl.jobs.exporters.token_transfers_item_exporter import token_transfers_item_exporter
-from etl_service.ethereumetl.jobs.extract_token_transfers_job import ExtractTokenTransfersJob
-from etl_service.blockchainetl.logging_utils import logging_basic_config
+from blockchainetl.file_utils import smart_open
+from ethereumetl.jobs.exporters.token_transfers_item_exporter import token_transfers_item_exporter
+from ethereumetl.jobs.extract_token_transfers_job import ExtractTokenTransfersJob
+from blockchainetl.logging_utils import logging_basic_config
 
 logging_basic_config()
 

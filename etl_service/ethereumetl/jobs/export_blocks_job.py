@@ -23,12 +23,12 @@
 
 import json
 
-from etl_service.ethereumetl.executors.batch_work_executor import BatchWorkExecutor
-from etl_service.blockchainetl.jobs.base_job import BaseJob
-from etl_service.ethereumetl.json_rpc_requests import generate_get_block_by_number_json_rpc
-from etl_service.ethereumetl.mappers.block_mapper import EthBlockMapper
-from etl_service.ethereumetl.mappers.transaction_mapper import EthTransactionMapper
-from etl_service.ethereumetl.utils import rpc_response_batch_to_results, validate_range
+from ethereumetl.executors.batch_work_executor import BatchWorkExecutor
+from blockchainetl.jobs.base_job import BaseJob
+from ethereumetl.json_rpc_requests import generate_get_block_by_number_json_rpc
+from ethereumetl.mappers.block_mapper import EthBlockMapper
+from ethereumetl.mappers.transaction_mapper import EthTransactionMapper
+from ethereumetl.utils import rpc_response_batch_to_results, validate_range
 
 
 # Exports blocks and transactions

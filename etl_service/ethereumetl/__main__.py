@@ -21,6 +21,6 @@
 # SOFTWARE.
 
 
-from etl_service.ethereumetl.cli import cli
+from ethereumetl.cli import cli
 
 cli()

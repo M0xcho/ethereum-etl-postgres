@@ -24,10 +24,10 @@ import json
 
 import click
 
-from etl_service.blockchainetl.file_utils import smart_open
-from etl_service.ethereumetl.jobs.exporters.traces_item_exporter import traces_item_exporter
-from etl_service.ethereumetl.jobs.extract_geth_traces_job import ExtractGethTracesJob
-from etl_service.blockchainetl.logging_utils import logging_basic_config
+from blockchainetl.file_utils import smart_open
+from ethereumetl.jobs.exporters.traces_item_exporter import traces_item_exporter
+from ethereumetl.jobs.extract_geth_traces_job import ExtractGethTracesJob
+from blockchainetl.logging_utils import logging_basic_config
 
 logging_basic_config()
 

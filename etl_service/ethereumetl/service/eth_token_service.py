@@ -23,8 +23,8 @@ import logging
 
 from web3.exceptions import BadFunctionCallOutput
 
-from etl_service.ethereumetl.domain.token import EthToken
-from etl_service.ethereumetl.erc20_abi import ERC20_ABI
+from ethereumetl.domain.token import EthToken
+from ethereumetl.erc20_abi import ERC20_ABI
 
 logger = logging.getLogger('eth_token_service')
 

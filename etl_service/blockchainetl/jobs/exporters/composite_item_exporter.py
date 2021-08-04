@@ -21,9 +21,9 @@
 # SOFTWARE.
 import logging
 
-from etl_service.blockchainetl.atomic_counter import AtomicCounter
-from etl_service.blockchainetl.exporters import CsvItemExporter, JsonLinesItemExporter
-from etl_service.blockchainetl.file_utils import get_file_handle, close_silently
+from blockchainetl.atomic_counter import AtomicCounter
+from blockchainetl.exporters import CsvItemExporter, JsonLinesItemExporter
+from blockchainetl.file_utils import get_file_handle, close_silently
 
 
 class CompositeItemExporter:

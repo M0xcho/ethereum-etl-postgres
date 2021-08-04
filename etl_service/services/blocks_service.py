@@ -1,14 +1,13 @@
 import sys
 import os
-import csv
 from distutils.util import strtobool
 
 from dotenv import load_dotenv
-from etl_service.blockchainetl.streaming.streaming_utils import configure_signals, configure_logging
-from etl_service.ethereumetl.enumeration.entity_type import EntityType
+from blockchainetl.streaming.streaming_utils import configure_signals, configure_logging
+from ethereumetl.enumeration.entity_type import EntityType
 
-from etl_service.ethereumetl.providers.auto import get_provider_from_uri
-from etl_service.ethereumetl.thread_local_proxy import ThreadLocalProxy
+from ethereumetl.providers.auto import get_provider_from_uri
+from ethereumetl.thread_local_proxy import ThreadLocalProxy
 
 from sqlalchemy import Table
 from sqlalchemy.sql.schema import MetaData
@@ -20,20 +19,36 @@ sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
 from infrastructure.gateways.database import DatabaseGateway
 from sqlalchemy import insert
 
-class BlocksService():
+def parse_entity_types():
+    entity_types = ["block"]
+    if (strtobool(os.getenv('streamBlocks', 'False'))):
+        return entity_types
+    pass
+
+def validate_entity_types(entity_types, output):
+    from ethereumetl.streaming.item_exporter_creator import determine_item_exporter_type, ItemExporterType
+    item_exporter_type = determine_item_exporter_type(output)
+    if item_exporter_type == ItemExporterType.POSTGRES \
+            and (EntityType.CONTRACT in entity_types or EntityType.TOKEN in entity_types):
+        raise ValueError('contract and token are not yet supported entity types for postgres item exporter.')
+
+def build_postgres_connectionstring(self):
+    return "postgresql+pg8000://{}:{}@{}:{}/{}".format(
+        os.getenv('postgresuser'), os.getenv('postgrespassword'), os.getenv('postgreshost'), os.getenv('postgresport'), os.getenv('postgresdb'))
+
+class ETLService():
     def __init__(self):
         load_dotenv()
         self.databaseGateway = DatabaseGateway()
         self.metadata = MetaData()
         self.blocks_table = Table("blocks", self.metadata, autoload_with=self.databaseGateway.engine)
         self.conn = self.databaseGateway.engine.connect()
-
         self.last_synced_block_file = 'last_synced_block.txt'
         self.lag = 0
         self.provider_uri = os.getenv('rpcUri')
-        self.output = "custompostgres"
+        self.output = build_postgres_connectionstring(self)
         self.start_block = None
-        self.entity_types = parse_entity_types("entity_types")
+        self.entity_types = parse_entity_types()
         self.period_seconds = 10
         self.batch_size = 10
         self.block_batch_size = 1
@@ -68,16 +83,16 @@ class BlocksService():
         )
         result = self.conn.execute(stmt)
 
-def stream(self, last_synced_block_file, lag, provider_uri, output, start_block, entity_types,
+def stream(last_synced_block_file, lag, provider_uri, output, start_block, entity_types,
            period_seconds=10, batch_size=2, block_batch_size=10, max_workers=5, log_file=None, pid_file=None):
 
     configure_logging(log_file)
     configure_signals()
     validate_entity_types(entity_types, output)
 
-    from etl_service.ethereumetl.streaming.item_exporter_creator import create_item_exporter
-    from etl_service.ethereumetl.streaming.eth_streamer_adapter import EthStreamerAdapter
-    from etl_service.blockchainetl.streaming.streamer import Streamer
+    from ethereumetl.streaming.item_exporter_creator import create_item_exporter
+    from ethereumetl.streaming.eth_streamer_adapter import EthStreamerAdapter
+    from blockchainetl.streaming.streamer import Streamer
 
     # TODO: Implement fallback mechanism for provider uris instead of picking randomly
 
@@ -98,16 +113,3 @@ def stream(self, last_synced_block_file, lag, provider_uri, output, start_block,
         pid_file=pid_file
     )
     streamer.stream()
-
-def parse_entity_types():
-    entity_types = []
-    if (strtobool(os.getenv('streamBlocks', 'False'))):
-        return entity_types
-    pass
-
-def validate_entity_types(entity_types, output):
-    from etl_service.ethereumetl.streaming.item_exporter_creator import determine_item_exporter_type, ItemExporterType
-    item_exporter_type = determine_item_exporter_type(output)
-    if item_exporter_type == ItemExporterType.POSTGRES \
-            and (EntityType.CONTRACT in entity_types or EntityType.TOKEN in entity_types):
-        raise ValueError('contract and token are not yet supported entity types for postgres item exporter.')

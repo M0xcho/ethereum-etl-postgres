@@ -21,7 +21,7 @@
 # SOFTWARE.
 
 
-from etl_service.ethereumetl.domain.geth_trace import EthGethTrace
+from ethereumetl.domain.geth_trace import EthGethTrace
 
 
 class EthGethTraceMapper(object):
