@@ -20,7 +20,7 @@ from infrastructure.gateways.database import DatabaseGateway
 from sqlalchemy import insert
 
 def parse_entity_types():
-    entity_types = ["block"]
+    entity_types = ["block","transaction"]
     if (strtobool(os.getenv('streamBlocks', 'False'))):
         return entity_types
     pass
@@ -39,10 +39,10 @@ def build_postgres_connectionstring(self):
 class ETLService():
     def __init__(self):
         load_dotenv()
-        self.databaseGateway = DatabaseGateway()
-        self.metadata = MetaData()
-        self.blocks_table = Table("blocks", self.metadata, autoload_with=self.databaseGateway.engine)
-        self.conn = self.databaseGateway.engine.connect()
+        #self.databaseGateway = DatabaseGateway()
+        #self.metadata = MetaData()
+        #self.blocks_table = Table("blocks", self.metadata, autoload_with=self.databaseGateway.engine)
+        #self.conn = self.databaseGateway.engine.connect()
         self.last_synced_block_file = 'last_synced_block.txt'
         self.lag = 0
         self.provider_uri = os.getenv('rpcUri')
@@ -59,29 +59,6 @@ class ETLService():
         #Stream Handler
         stream(self.last_synced_block_file, self.lag, self.provider_uri, self.output, self.start_block, self.entity_types,
         self.period_seconds, self.batch_size, self.block_batch_size, self.max_workers, self.log_file, self.pid_file)
-
-    def insert_block(self,row):
-        stmt = insert(self.blocks_table).values(
-        number=row["number"],
-        hash=row["hash"],
-        parent_hash=row["parent_hash"],
-        nonce=row["nonce"],
-        sha3_uncles=row["sha3_uncles"],
-        logs_bloom=row["logs_bloom"],
-        transactions_root=row["transactions_root"],
-        state_root=row["state_root"],
-        receipts_root=row["receipts_root"],
-        miner=row["miner"],
-        difficulty=row["difficulty"],
-        total_difficulty=row["total_difficulty"],
-        size=row["size"],
-        extra_data=row["extra_data"],
-        gas_limit=row["gas_limit"],
-        gas_used=row["gas_used"],
-        timestamp=row["timestamp"],
-        transaction_count=row["transaction_count"]
-        )
-        result = self.conn.execute(stmt)
 
 def stream(last_synced_block_file, lag, provider_uri, output, start_block, entity_types,
            period_seconds=10, batch_size=2, block_batch_size=10, max_workers=5, log_file=None, pid_file=None):

@@ -33,7 +33,4 @@ class Block():
                 timestamp=row["item_timestamp"],
                 transaction_count=row["transaction_count"]
                 )
-                print(stmt)
-                compiled = stmt.compile()
-                print(compiled.params)
                 self.conn.execute(stmt)
