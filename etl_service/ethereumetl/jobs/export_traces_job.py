@@ -71,7 +71,7 @@ class ExportTracesJob(BaseJob):
     def _export_batch(self, block_number_batch):
         # TODO: Change to len(block_number_batch) > 0 when this issue is fixed
         # https://github.com/paritytech/parity-ethereum/issues/9822
-        assert len(block_number_batch) == 1
+        assert len(block_number_batch) > 0
         block_number = block_number_batch[0]
 
         all_traces = []
@@ -84,9 +84,10 @@ class ExportTracesJob(BaseJob):
             daofork_traces = self.special_trace_service.get_daofork_traces()
             all_traces.extend(daofork_traces)
 
+        # Parity not implemented on avalanche c-chain
         # TODO: Change to traceFilter when this issue is fixed
         # https://github.com/paritytech/parity-ethereum/issues/9822
-        json_traces = self.web3.parity.traceBlock(block_number)
+        json_traces = self.web3.parity.traceFilter(block_number)
 
         if json_traces is None:
             raise ValueError('Response from the node is None. Is the node fully synced?')

@@ -46,20 +46,39 @@ class PostgresItemExporter:
         for item_type, insert_stmt in self.item_type_to_insert_stmt_mapping.items():
                 
             item_group = items_grouped_by_type.get(item_type)
-            if item_group:
-                from blockchainetl.block import Block
-                from blockchainetl.transaction import Transaction
-                from blockchainetl.token_transfer import TokenTransfer
-                if item_group[0].get("type") == "block":
-                    block_repo = Block()
-                    block_repo.insert_block(item_group[0])
-                if item_group[0].get("type") == "transaction":
-                    transaction_repo = Transaction()
-                    transaction_repo.insert_transaction(item_group[0])
-                if item_group[0].get("type") == "token_transfer":
-                    transaction_repo = TokenTransfer()
-                    transaction_repo.insert_token_transfer(item_group[0])
+            if item_group is not None:
+                for item in item_group:
+                    from blockchainetl.block import Block
+                    from blockchainetl.transaction import Transaction
+                    from blockchainetl.token_transfer import TokenTransfer
+                    from blockchainetl.token import Token
+                    from blockchainetl.trace import Trace
+                    from blockchainetl.contract import Contract
 
+                    if item.get("type") == "block":
+                        block_repo = Block()
+                        block_repo.insert_block(item_group[0])
+                        return
+                    if item.get("type") == "transaction":
+                        transaction_repo = Transaction()
+                        transaction_repo.insert_transaction(item_group[0])
+                        return
+                    if item.get("type") == "token_transfer":
+                        token_transfers_repo = TokenTransfer()
+                        token_transfers_repo.insert_token_transfer(item_group[0])
+                        return
+                    #if item.get("type") == "token":
+                    #    tokens_repo = Token()
+                    #    tokens_repo.insert_token(item_group[0])
+                    #    return
+                    #if item.get("type") == "trace":
+                    #    traces_repo = Trace()
+                    #   traces_repo.insert_trace(item_group[0])
+                    #    return
+                    #if item.get("type") == "contract":
+                    #    contracts_repo = Contract()
+                    #    contracts_repo.insert_contract(item_group[0])
+                    #    return
                 #connection = self.engine.connect()
                 #converted_items = list(self.convert_items(item_group))
                 #connection.execute(insert_stmt, converted_items)

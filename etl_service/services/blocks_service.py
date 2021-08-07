@@ -21,16 +21,13 @@ from sqlalchemy import insert
 
 def parse_entity_types():
     entity_types = ["block","transaction", "token_transfer"]
-    if (strtobool(os.getenv('streamBlocks', 'False'))):
-        return entity_types
+    return entity_types
     pass
 
 def validate_entity_types(entity_types, output):
     from ethereumetl.streaming.item_exporter_creator import determine_item_exporter_type, ItemExporterType
     item_exporter_type = determine_item_exporter_type(output)
-    if item_exporter_type == ItemExporterType.POSTGRES \
-            and (EntityType.CONTRACT in entity_types or EntityType.TOKEN in entity_types):
-        raise ValueError('contract and token are not yet supported entity types for postgres item exporter.')
+    
 
 def build_postgres_connectionstring(self):
     return "postgresql+pg8000://{}:{}@{}:{}/{}".format(

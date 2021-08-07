@@ -51,6 +51,8 @@ def create_item_exporter(output):
                 'log': create_insert_statement_for_table(LOGS),
                 'token_transfer': create_insert_statement_for_table(TOKEN_TRANSFERS),
                 'trace': create_insert_statement_for_table(TRACES),
+                'token': None,
+                'contract': None
             },
             converters=[UnixTimestampItemConverter(), IntToDecimalItemConverter(),
                         ListFieldItemConverter('topics', 'topic', fill=4)])
